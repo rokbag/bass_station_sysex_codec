@@ -25,11 +25,14 @@ get_filename_component(ProjectId ${CMAKE_SOURCE_DIR} NAME)
 project(${ProjectId})
 add_definitions("-std=c++14")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Werror -Wextra -pedantic")
+
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 aux_source_directory(src/app SRC_LIST)
 aux_source_directory(src/codec CLASSES_LIST)
-add_executable(${PROJECT_NAME} ${SRC_LIST} ${CLASSES_LIST})
+aux_source_directory(src/util UTILS_LIST)
+add_executable(${PROJECT_NAME} ${SRC_LIST} ${CLASSES_LIST} ${UTILS_LIST})
 target_link_libraries( ${PROJECT_NAME} stdc++)
 
 aux_source_directory(testing TEST_LIST)
