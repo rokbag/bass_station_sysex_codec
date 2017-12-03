@@ -36,5 +36,5 @@ add_executable(${PROJECT_NAME} ${SRC_LIST} ${CLASSES_LIST} ${UTILS_LIST})
 target_link_libraries( ${PROJECT_NAME} stdc++)
 
 aux_source_directory(testing TEST_LIST)
-add_executable(ut ${TEST_LIST} ${CLASSES_LIST})
+add_executable(ut ${TEST_LIST} ${CLASSES_LIST} ${UTILS_LIST})
 target_link_libraries(ut stdc++ gtest_main gmock_main)

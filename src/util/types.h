@@ -27,7 +27,7 @@ enum class EParam {
     MixerSubOscLevel,
     MixerNoiseLevel,
     MixerRingModLevel,
-    MixerExternalSignalLevel,
+    MixerExtLevel,
     FilterFrequency,
     FilterResonance,
     FilterOverdrive,
@@ -36,4 +36,4 @@ enum class EParam {
     VelocityAmpEnv
 };
 
-using value_map_type = std::map<EParam, uint8>;
+using value_map = std::map<EParam, uint8>;
