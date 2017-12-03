@@ -1,4 +1,7 @@
 #include "decoder.h"
+#include <iostream>
+
+namespace sysex_decoder {
 
 value_map decoder::decode(const data_t& payload)
 {
@@ -105,101 +108,107 @@ value_map decoder::decode(const data_t& payload, int offset)
 
     return values; }
 
+void decoder::print(const value_map &data, EParam filter)
+{
+    std::cout << static_cast<int>(data.at(filter)) << std::endl;
+}
 
-uint8 decoder::patch_number   (const uint8 msb)                      { return   msb & 0b01111111; }
-uint8 decoder::portamento_time(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00000011) << 5) + ((lsb & 0b01111100) >> 2); }
+uint8 decoder::patch_number   (const uint8 msb)                         { return   msb & 0b01111111; }
+uint8 decoder::portamento_time(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00000011) << 5) + ((lsb & 0b01111100) >> 2); }
 
-uint8 decoder::osc_pitch_bend_range(const uint8 msb)                 { return   msb & 0b01111111; }
-uint8 decoder::osc_sync(const uint8 msb)                             { return   msb & 0b01000000  >> 6; }
+uint8 decoder::osc_pitch_bend_range(const uint8 msb)                    { return   msb & 0b01111111; }
+uint8 decoder::osc_sync(const uint8 msb)                                { return  (msb & 0b01000000) >> 6; }
 
-uint8 decoder::osc1_waveform(const uint8 msb)                        { return   msb & 0b01100000  >> 5; }
-uint8 decoder::osc1_manual_pw(const uint8 msb, const uint8 lsb)      { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
-uint8 decoder::osc1_range(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00000111) << 4) + ((lsb & 0b01111000) >> 3); }
-uint8 decoder::osc1_coarse(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00000111) << 5) + ((lsb & 0b01111100) >> 2); }
-uint8 decoder::osc1_fine(const uint8 msb, const uint8 lsb)           { return ((msb & 0b00000011) << 6) + ((lsb & 0b01111110) >> 1); }
+uint8 decoder::osc1_waveform(const uint8 msb)                           { return  (msb & 0b01100000) >> 5; }
+uint8 decoder::osc1_manual_pw(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
+uint8 decoder::osc1_range(const uint8 msb, const uint8 lsb)             { return ((msb & 0b00000111) << 4) + ((lsb & 0b01111000) >> 3); }
+uint8 decoder::osc1_coarse(const uint8 msb, const uint8 lsb)            { return ((msb & 0b00000111) << 5) + ((lsb & 0b01111100) >> 2); }
+uint8 decoder::osc1_fine(const uint8 msb, const uint8 lsb)              { return ((msb & 0b00000011) << 6) + ((lsb & 0b01111110) >> 1); }
 
-uint8 decoder::osc2_waveform(const uint8 msb)                        { return   msb & 0b00000011; }
-uint8 decoder::osc2_manual_pw(const uint8 msb, const uint8 lsb)      { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
-uint8 decoder::osc2_range(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
-uint8 decoder::osc2_coarse(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00011111) << 3) + ((lsb & 0b01110000) >> 4); }
-uint8 decoder::osc2_fine(const uint8 msb, const uint8 lsb)           { return ((msb & 0b00001111) << 4) + ((lsb & 0b01111000) >> 3); }
+uint8 decoder::osc2_waveform(const uint8 msb)                           { return   msb & 0b00000011; }
+uint8 decoder::osc2_manual_pw(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::osc2_range(const uint8 msb, const uint8 lsb)             { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
+uint8 decoder::osc2_coarse(const uint8 msb, const uint8 lsb)            { return ((msb & 0b00011111) << 3) + ((lsb & 0b01110000) >> 4); }
+uint8 decoder::osc2_fine(const uint8 msb, const uint8 lsb)              { return ((msb & 0b00001111) << 4) + ((lsb & 0b01111000) >> 3); }
 
-uint8 decoder::sub_osc_waveform(const uint8 msb)                     { return   msb & 0b00110000  >> 4; }
-uint8 decoder::sub_osc_octave(const uint8 msb)                       { return   msb & 0b00001000  >> 3; }
+uint8 decoder::sub_osc_waveform(const uint8 msb)                        { return  (msb & 0b00110000) >> 4; }
+uint8 decoder::sub_osc_octave(const uint8 msb)                          { return  (msb & 0b00001000) >> 3; }
 
-uint8 decoder::mixer_osc1_level(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00000111) << 5) + ((lsb & 0b01111100) >> 2); }
-uint8 decoder::mixer_osc2_level(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00000011) << 6) + ((lsb & 0b01111110) >> 1); }
-uint8 decoder::mixer_sub_osc_level(const uint8 msb, const uint8 lsb) { return ((msb & 0b00000001) << 7) +  (lsb & 0b01111111); }
-uint8 decoder::mixer_noise_level(const uint8 msb, const uint8 lsb)   { return ((msb & 0b01111111) << 1) + ((lsb & 0b01000000) >> 6); }
-uint8 decoder::mixer_rm_level(const uint8 msb, const uint8 lsb)      { return ((msb & 0b00111111) << 2) + ((lsb & 0b01100000) >> 5); }
-uint8 decoder::mixer_ext_level(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00011111) << 3) + ((lsb & 0b01110000) >> 4); }
+uint8 decoder::mixer_osc1_level(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00000111) << 5) + ((lsb & 0b01111100) >> 2); }
+uint8 decoder::mixer_osc2_level(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00000011) << 6) + ((lsb & 0b01111110) >> 1); }
+uint8 decoder::mixer_sub_osc_level(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00000001) << 7) +  (lsb & 0b01111111); }
+uint8 decoder::mixer_noise_level(const uint8 msb, const uint8 lsb)      { return ((msb & 0b01111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::mixer_rm_level(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00111111) << 2) + ((lsb & 0b01100000) >> 5); }
+uint8 decoder::mixer_ext_level(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00011111) << 3) + ((lsb & 0b01110000) >> 4); }
 
-uint8 decoder::filter_frequency(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00001111) << 4) + ((lsb & 0b01111000) >> 3); }
-uint8 decoder::filter_resonance(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00000011) << 5) + ((lsb & 0b01111100) >> 2); }
-uint8 decoder::filter_overdrive(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
-uint8 decoder::filter_slope(const uint8 msb)                         { return   msb & 0b00001000  >> 3; }
-uint8 decoder::filter_type(const uint8 msb)                          { return   msb & 0b00000100  >> 2; }
+uint8 decoder::filter_frequency(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00001111) << 4) + ((lsb & 0b01111000) >> 3); }
+uint8 decoder::filter_resonance(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00000011) << 5) + ((lsb & 0b01111100) >> 2); }
+uint8 decoder::filter_overdrive(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
+uint8 decoder::filter_slope(const uint8 msb)                            { return  (msb & 0b00001000) >> 3; }
+uint8 decoder::filter_type(const uint8 msb)                             { return  (msb & 0b00000100) >> 2; }
 
-uint8 decoder::velocity_amp_env(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
-uint8 decoder::amp_env_attack(const uint8 msb, const uint8 lsb)      { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
-uint8 decoder::amp_env_decay(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
-uint8 decoder::amp_env_sustain(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00000111) << 4) + ((lsb & 0b01111000) >> 3); }
-uint8 decoder::amp_env_release(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00000011) << 5) + ((lsb & 0b01111100) >> 2); }
-uint8 decoder::amp_env_triggering(const uint8 msb)                   { return   msb & 0b00000110  >> 1; }
+uint8 decoder::velocity_amp_env(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::amp_env_attack(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
+uint8 decoder::amp_env_decay(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
+uint8 decoder::amp_env_sustain(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00000111) << 4) + ((lsb & 0b01111000) >> 3); }
+uint8 decoder::amp_env_release(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00000011) << 5) + ((lsb & 0b01111100) >> 2); }
+uint8 decoder::amp_env_triggering(const uint8 msb)                      { return  (msb & 0b00000110) >> 1; }
 
-uint8 decoder::velocity_mod_env(const uint8 msb)                     { return   msb & 0b01111111; }
-uint8 decoder::mod_env_attack(const uint8 msb, const uint8 lsb)      { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
-uint8 decoder::mod_env_decay(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
-uint8 decoder::mod_env_sustain(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
-uint8 decoder::mod_env_release(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00000111) << 4) + ((lsb & 0b01111000) >> 3); }
-uint8 decoder::mod_env_triggering(const uint8 msb)                   { return  (msb & 0b00001100) >> 2; }
+uint8 decoder::velocity_mod_env(const uint8 msb)                        { return   msb & 0b01111111; }
+uint8 decoder::mod_env_attack(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::mod_env_decay(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
+uint8 decoder::mod_env_sustain(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
+uint8 decoder::mod_env_release(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00000111) << 4) + ((lsb & 0b01111000) >> 3); }
+uint8 decoder::mod_env_triggering(const uint8 msb)                      { return  (msb & 0b00001100) >> 2; }
 
-uint8 decoder::lfo1_wave(const uint8 msb)                            { return  (msb & 0b00000110) >> 1; }
-uint8 decoder::lfo1_delay(const uint8 msb)                           { return   msb & 0b01111111; }
-uint8 decoder::lfo1_slew(const uint8 msb, const uint8 lsb)           { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
-uint8 decoder::lfo1_speed(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00111111) << 2) + ((lsb & 0b01100000) >> 5); }
-uint8 decoder::lfo1_sync_value(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00000111) << 3) + ((lsb & 0b01110000) >> 4); }
-uint8 decoder::lfo1_speed_sync(const uint8 msb)                      { return  (msb & 0b00001000) >> 3; }
-uint8 decoder::lfo1_key_sync(const uint8 msb)                        { return  (msb & 0b00010000) >> 4; }
+uint8 decoder::lfo1_wave(const uint8 msb)                               { return  (msb & 0b00000110) >> 1; }
+uint8 decoder::lfo1_delay(const uint8 msb)                              { return   msb & 0b01111111; }
+uint8 decoder::lfo1_slew(const uint8 msb, const uint8 lsb)              { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::lfo1_speed(const uint8 msb, const uint8 lsb)             { return ((msb & 0b00111111) << 2) + ((lsb & 0b01100000) >> 5); }
+uint8 decoder::lfo1_sync_value(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00000111) << 3) + ((lsb & 0b01110000) >> 4); }
+uint8 decoder::lfo1_speed_sync(const uint8 msb)                         { return  (msb & 0b00001000) >> 3; }
+uint8 decoder::lfo1_key_sync(const uint8 msb)                           { return  (msb & 0b00010000) >> 4; }
 
-uint8 decoder::lfo2_wave(const uint8 msb)                            { return  (msb & 0b00001100) >> 2; }
-uint8 decoder::lfo2_delay(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
-uint8 decoder::lfo2_slew(const uint8 msb)                            { return   msb & 0b01111111; }
-uint8 decoder::lfo2_speed(const uint8 msb, const uint8 lsb)          { return ((msb & 0b01111111) << 1) + ((lsb & 0b01000000) >> 6); }
-uint8 decoder::lfo2_sync_value(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00001111) << 2) + ((lsb & 0b01100000) >> 5); }
-uint8 decoder::lfo2_speed_sync(const uint8 msb)                      { return  (msb & 0b00010000) >> 4; }
-uint8 decoder::lfo2_key_sync(const uint8 msb)                        { return  (msb & 0b00100000) >> 5; }
+uint8 decoder::lfo2_wave(const uint8 msb)                               { return  (msb & 0b00001100) >> 2; }
+uint8 decoder::lfo2_delay(const uint8 msb, const uint8 lsb)             { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
+uint8 decoder::lfo2_slew(const uint8 msb)                               { return   msb & 0b01111111; }
+uint8 decoder::lfo2_speed(const uint8 msb, const uint8 lsb)             { return ((msb & 0b01111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::lfo2_sync_value(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00001111) << 2) + ((lsb & 0b01100000) >> 5); }
+uint8 decoder::lfo2_speed_sync(const uint8 msb)                         { return  (msb & 0b00010000) >> 4; }
+uint8 decoder::lfo2_key_sync(const uint8 msb)                           { return  (msb & 0b00100000) >> 5; }
 
-uint8 decoder::arp_on(const uint8 msb)                               { return  (msb & 0b00001000) >> 3; }
-uint8 decoder::arp_seq_retrig(const uint8 msb)                       { return  (msb & 0b00100000) >> 5; }
-uint8 decoder::arp_octaves(const uint8 msb)                          { return  (msb & 0b00011100) >> 2; }
-uint8 decoder::arp_note_mode(const uint8 msb)                        { return  (msb & 0b00001110) >> 1; }
-uint8 decoder::arp_rhythm(const uint8 msb)                           { return   msb & 0b00011111; }
-uint8 decoder::arp_swing(const uint8 msb, const uint8 lsb)           { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::arp_on(const uint8 msb)                                  { return  (msb & 0b00001000) >> 3; }
+uint8 decoder::arp_seq_retrig(const uint8 msb)                          { return  (msb & 0b00100000) >> 5; }
+uint8 decoder::arp_octaves(const uint8 msb)                             { return  (msb & 0b00011100) >> 2; }
+uint8 decoder::arp_note_mode(const uint8 msb)                           { return  (msb & 0b00001110) >> 1; }
+uint8 decoder::arp_rhythm(const uint8 msb)                              { return   msb & 0b00011111; }
+uint8 decoder::arp_swing(const uint8 msb, const uint8 lsb)              { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
 
 uint8 decoder::mod_wheel_filter_freq(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
 uint8 decoder::mod_wheel_lfo1_to_osc_pitch(const uint8 msb, const uint8 lsb)   { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
 uint8 decoder::mod_wheel_lfo2_to_filter_freq(const uint8 msb, const uint8 lsb) { return ((msb & 0b00000111) << 4) + ((lsb & 0b01111000) >> 3); }
 uint8 decoder::mod_wheel_osc2_pitch(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00000011) << 5) + ((lsb & 0b01111100) >> 2); }
 
-uint8 decoder::aftertouch_filter_freq(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
-uint8 decoder::aftertouch_lfo1_to_osc12_pitch(const uint8 msb)                  { return   msb & 0b01111111; }
-uint8 decoder::aftertouch_lfo2_speed(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::aftertouch_filter_freq(const uint8 msb, const uint8 lsb) { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
+uint8 decoder::aftertouch_lfo1_to_osc12_pitch(const uint8 msb)          { return   msb & 0b01111111; }
+uint8 decoder::aftertouch_lfo2_speed(const uint8 msb, const uint8 lsb)  { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
 
-uint8 decoder::osc1_lfo1_depth(const uint8 msb, const uint8 lsb)      { return ((msb & 0b00111111) << 2) + ((lsb & 0b01100000) >> 5); }
-uint8 decoder::osc2_lfo1_depth(const uint8 msb, const uint8 lsb)      { return ((msb & 0b00011111) << 3) + ((lsb & 0b01110000) >> 4); }
-uint8 decoder::osc1_lfo2_pw_mod(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00000011) << 5) + ((lsb & 0b01111100) >> 2); }
-uint8 decoder::osc2_lfo2_pw_mod(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
-uint8 decoder::filter_lfo2_depth(const uint8 msb, const uint8 lsb)    { return ((msb & 0b01111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::osc1_lfo1_depth(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00111111) << 2) + ((lsb & 0b01100000) >> 5); }
+uint8 decoder::osc2_lfo1_depth(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00011111) << 3) + ((lsb & 0b01110000) >> 4); }
+uint8 decoder::osc1_lfo2_pw_mod(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00000011) << 5) + ((lsb & 0b01111100) >> 2); }
+uint8 decoder::osc2_lfo2_pw_mod(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
+uint8 decoder::filter_lfo2_depth(const uint8 msb, const uint8 lsb)      { return ((msb & 0b01111111) << 1) + ((lsb & 0b01000000) >> 6); }
 
-uint8 decoder::osc1_mod_env_depth(const uint8 msb, const uint8 lsb)   { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
-uint8 decoder::osc2_mod_env_depth(const uint8 msb, const uint8 lsb)   { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
-uint8 decoder::osc1_mod_env_pw_mod(const uint8 msb, const uint8 lsb)  { return ((msb & 0b00000001) << 5) + ((lsb & 0b01111100) >> 2); }
-uint8 decoder::osc2_mod_env_pw_mod(const uint8 msb, const uint8 lsb)  { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
-uint8 decoder::filter_mod_env_depth(const uint8 msb, const uint8 lsb) { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
+uint8 decoder::osc1_mod_env_depth(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
+uint8 decoder::osc2_mod_env_depth(const uint8 msb, const uint8 lsb)     { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
+uint8 decoder::osc1_mod_env_pw_mod(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00000001) << 5) + ((lsb & 0b01111100) >> 2); }
+uint8 decoder::osc2_mod_env_pw_mod(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
+uint8 decoder::filter_mod_env_depth(const uint8 msb, const uint8 lsb)   { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
 
-uint8 decoder::fx_osc_filter_mod(const uint8 msb, const uint8 lsb)    { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
-uint8 decoder::fx_distortion(const uint8 msb, const uint8 lsb)        { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
-uint8 decoder::vca_limiter(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00000111) << 4) + ((lsb & 0b01111000) >> 3); }
+uint8 decoder::fx_osc_filter_mod(const uint8 msb, const uint8 lsb)      { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
+uint8 decoder::fx_distortion(const uint8 msb, const uint8 lsb)          { return ((msb & 0b00001111) << 3) + ((lsb & 0b01110000) >> 4); }
+uint8 decoder::vca_limiter(const uint8 msb, const uint8 lsb)            { return ((msb & 0b00000111) << 4) + ((lsb & 0b01111000) >> 3); }
 
-std::string decoder::patch_name(const data_t& data)                   { return std::string{data.begin(), data.end()}; }
+std::string decoder::patch_name(const data_t& data)                     { return std::string{data.begin(), data.end()}; }
+
+}

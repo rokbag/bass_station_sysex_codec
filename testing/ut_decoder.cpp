@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "codec/decoder.h"
 
+namespace sysex_decoder {
 
 class ut_decoder : public decoder, public testing::Test
 {
@@ -28,7 +29,7 @@ TEST_F(ut_decoder, decode_test_example_patch)
     EXPECT_EQ(  0, result[EParam::PortamentoTime]);
     EXPECT_EQ( 66, result[EParam::OscPitchBendRange]);
     EXPECT_EQ(  0, result[EParam::OscSync]);
-    EXPECT_EQ(  3, result[EParam::Osc1Waveform]);
+    EXPECT_EQ(  2, result[EParam::Osc1Waveform]);
     EXPECT_EQ( 93, result[EParam::Osc1ManualPW]);
     EXPECT_EQ( 63, result[EParam::Osc1Range]);
     EXPECT_EQ(  0, result[EParam::Osc1Coarse]);
@@ -38,7 +39,7 @@ TEST_F(ut_decoder, decode_test_example_patch)
     EXPECT_EQ( 63, result[EParam::Osc2Range]);
     EXPECT_EQ(127, result[EParam::Osc2Coarse]);
     EXPECT_EQ(127, result[EParam::Osc2Fine]);
-    EXPECT_EQ(  3, result[EParam::SubOscWave]);
+    EXPECT_EQ(  0, result[EParam::SubOscWave]);
     EXPECT_EQ(  1, result[EParam::SubOscOct]);
     EXPECT_EQ(255, result[EParam::MixerOsc1Level]);
     EXPECT_EQ(255, result[EParam::MixerOsc2Level]);
@@ -49,10 +50,60 @@ TEST_F(ut_decoder, decode_test_example_patch)
     EXPECT_EQ(  6, result[EParam::FilterFrequency]);
     EXPECT_EQ( 85, result[EParam::FilterResonance]);
     EXPECT_EQ( 91, result[EParam::FilterOverdrive]);
-    EXPECT_EQ(  0, result[EParam::FilterSlope]);
+    EXPECT_EQ(  1, result[EParam::FilterSlope]);
     EXPECT_EQ(  0, result[EParam::FilterType]);
-    EXPECT_EQ(108, result[EParam::VelocityAmpEnv]);}
-
+    EXPECT_EQ(108, result[EParam::VelocityAmpEnv]);
+    EXPECT_EQ(  0, result[EParam::AmpEnvAttack]);
+    EXPECT_EQ(127, result[EParam::AmpEnvDecay]);
+    EXPECT_EQ(127, result[EParam::AmpEnvSustain]);
+    EXPECT_EQ( 92, result[EParam::AmpEnvRelease]);
+    EXPECT_EQ(  0, result[EParam::AmpEnvTriggering]);
+    EXPECT_EQ(  0, result[EParam::ModEnvAttack]);
+    EXPECT_EQ( 92, result[EParam::ModEnvDecay]);
+    EXPECT_EQ( 24, result[EParam::ModEnvSustain]);
+    EXPECT_EQ( 80, result[EParam::ModEnvRelease]);
+    EXPECT_EQ(  0, result[EParam::ModEnvTriggering]);
+    EXPECT_EQ(  0, result[EParam::LFO1Wave]);
+    EXPECT_EQ( 89, result[EParam::LFO1Delay]);
+    EXPECT_EQ(  0, result[EParam::LFO1Slew]);
+    EXPECT_EQ( 69, result[EParam::LFO1Speed]);
+    EXPECT_EQ(  0, result[EParam::LFO1SyncValue]);
+    EXPECT_EQ(  0, result[EParam::LFO1SpeedSync]);
+    EXPECT_EQ(  0, result[EParam::LFO1KeySync]);
+    EXPECT_EQ( 48, result[EParam::LFO2Delay]);
+    EXPECT_EQ(  0, result[EParam::LFO2Wave]);
+    EXPECT_EQ(  0, result[EParam::LFO2Slew]);
+    EXPECT_EQ( 38, result[EParam::LFO2Speed]);
+    EXPECT_EQ(  0, result[EParam::LFO2SyncValue]);
+    EXPECT_EQ(  0, result[EParam::LFO2SpeedSync]);
+    EXPECT_EQ(  1, result[EParam::LFO2KeySync]);
+    EXPECT_EQ(  0, result[EParam::ArpOn]);
+    EXPECT_EQ(  1, result[EParam::ArpSeqRetrig]);
+    EXPECT_EQ(  2, result[EParam::ArpOctaves]);
+    EXPECT_EQ(  5, result[EParam::ArpNoteMode]);
+    EXPECT_EQ( 31, result[EParam::ArpRhythm]);
+    EXPECT_EQ( 50, result[EParam::ArpSwing]);
+    EXPECT_EQ( 64, result[EParam::ModWheelFilterFreq]);
+    EXPECT_EQ( 73, result[EParam::ModWheelLFO1toOscPitch]);
+    EXPECT_EQ( 64, result[EParam::ModWheelLFO2toFilterFreq]);
+    EXPECT_EQ( 64, result[EParam::ModWheelOsc2Pitch]);
+    EXPECT_EQ( 64, result[EParam::AftertouchFilterFreq]);
+    EXPECT_EQ( 70, result[EParam::AftertouchLFO1toOsc12Pitch]);
+    EXPECT_EQ( 64, result[EParam::AftertouchLFO2Speed]);
+    EXPECT_EQ(127, result[EParam::Osc1LFO1Depth]);
+    EXPECT_EQ(127, result[EParam::Osc2LFO1Depth]);
+    EXPECT_EQ( 78, result[EParam::Osc1LFO2PWMod]);
+    EXPECT_EQ( 83, result[EParam::Osc2LFO2PWMod]);
+    EXPECT_EQ(127, result[EParam::FilterLFO2Depth]);
+    EXPECT_EQ( 64, result[EParam::Osc1ModEnvDepth]);
+    EXPECT_EQ( 64, result[EParam::Osc2ModEnvDepth]);
+    EXPECT_EQ( 63, result[EParam::Osc1ModEnvPWMod]);
+    EXPECT_EQ( 63, result[EParam::Osc2ModEnvPWMod]);
+    EXPECT_EQ(105, result[EParam::FilterModEnvDepth]);
+    EXPECT_EQ(  0, result[EParam::FxOscFilterMod]);
+    EXPECT_EQ(  0, result[EParam::FxDistortion]);
+    EXPECT_EQ(  0, result[EParam::VCALimiter]);
+}
 
 TEST_F(ut_decoder, decode_test_min_values)
 {
@@ -108,12 +159,6 @@ TEST_F(ut_decoder, decode_test_min_values)
     EXPECT_EQ(0, result[EParam::ModEnvDecay]);
     EXPECT_EQ(0, result[EParam::ModEnvSustain]);
     EXPECT_EQ(0, result[EParam::ModEnvRelease]);
-    EXPECT_EQ(0, result[EParam::ModEnvTriggering]);
-    EXPECT_EQ(0, result[EParam::ModEnvTriggering]);
-    EXPECT_EQ(0, result[EParam::ModEnvTriggering]);
-    EXPECT_EQ(0, result[EParam::ModEnvTriggering]);
-    EXPECT_EQ(0, result[EParam::ModEnvTriggering]);
-    EXPECT_EQ(0, result[EParam::ModEnvTriggering]);
     EXPECT_EQ(0, result[EParam::ModEnvTriggering]);
     EXPECT_EQ(0, result[EParam::LFO1Wave]);
     EXPECT_EQ(0, result[EParam::LFO1Delay]);
@@ -482,4 +527,6 @@ TEST_F(ut_decoder, velocity_amp_env)
     EXPECT_EQ(0, result);
     result = velocity_amp_env(255, 255);
     EXPECT_EQ(127, result);
+}
+
 }

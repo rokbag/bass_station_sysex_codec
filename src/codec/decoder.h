@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 
+namespace sysex_decoder {
 
 enum class EParam {
     PatchNumber,
@@ -98,6 +99,8 @@ class decoder
 public:
     value_map decode(const data_t &payload);
     value_map decode(const data_t &payload, int offset);
+
+    void print(const value_map& data, EParam filter);
 
 protected:
     uint8 patch_number(const uint8 msb);
@@ -198,3 +201,5 @@ protected:
 
     std::string patch_name(const data_t& data);
 };
+
+}
