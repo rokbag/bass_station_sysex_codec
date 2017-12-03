@@ -31,10 +31,9 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 
 aux_source_directory(src/app SRC_LIST)
 aux_source_directory(src/codec CLASSES_LIST)
-aux_source_directory(src/util UTILS_LIST)
-add_executable(${PROJECT_NAME} ${SRC_LIST} ${CLASSES_LIST} ${UTILS_LIST})
+add_executable(${PROJECT_NAME} ${SRC_LIST} ${CLASSES_LIST})
 target_link_libraries( ${PROJECT_NAME} stdc++)
 
 aux_source_directory(testing TEST_LIST)
-add_executable(ut ${TEST_LIST} ${CLASSES_LIST} ${UTILS_LIST})
+add_executable(ut ${TEST_LIST} ${CLASSES_LIST})
 target_link_libraries(ut stdc++ gtest_main gmock_main)
