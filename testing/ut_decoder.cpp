@@ -52,6 +52,7 @@ TEST_F(ut_decoder, decode_test_example_patch)
     EXPECT_EQ( 91, result[EParam::FilterOverdrive]);
     EXPECT_EQ(  1, result[EParam::FilterSlope]);
     EXPECT_EQ(  0, result[EParam::FilterType]);
+    EXPECT_EQ(  0, result[EParam::FilterShape]);
     EXPECT_EQ(108, result[EParam::VelocityAmpEnv]);
     EXPECT_EQ(  0, result[EParam::AmpEnvAttack]);
     EXPECT_EQ(127, result[EParam::AmpEnvDecay]);
@@ -149,6 +150,7 @@ TEST_F(ut_decoder, decode_test_min_values)
     EXPECT_EQ(0, result[EParam::FilterOverdrive]);
     EXPECT_EQ(0, result[EParam::FilterSlope]);
     EXPECT_EQ(0, result[EParam::FilterType]);
+    EXPECT_EQ(0, result[EParam::FilterShape]);
     EXPECT_EQ(0, result[EParam::VelocityAmpEnv]);
     EXPECT_EQ(0, result[EParam::AmpEnvAttack]);
     EXPECT_EQ(0, result[EParam::AmpEnvDecay]);
@@ -246,6 +248,7 @@ TEST_F(ut_decoder, decode_test_max_values)
     EXPECT_EQ(127, result[EParam::FilterOverdrive]);
     EXPECT_EQ(  1, result[EParam::FilterSlope]);
     EXPECT_EQ(  1, result[EParam::FilterType]);
+    EXPECT_EQ(  3, result[EParam::FilterShape]);
     EXPECT_EQ(127, result[EParam::VelocityAmpEnv]);
     EXPECT_EQ(127, result[EParam::AmpEnvAttack]);
     EXPECT_EQ(127, result[EParam::AmpEnvDecay]);

@@ -34,6 +34,7 @@ enum class EParam {
     FilterOverdrive,
     FilterSlope,
     FilterType,
+    FilterShape,
     VelocityAmpEnv,
     AmpEnvAttack,
     AmpEnvDecay,
@@ -136,6 +137,7 @@ protected:
     uint8 filter_overdrive(const uint8 msb, const uint8 lsb);
     uint8 filter_slope(const uint8 msb);
     uint8 filter_type(const uint8 msb);
+    uint8 filter_shape(const uint8 msb);
 
     uint8 velocity_amp_env(const uint8 msb, const uint8 lsb);
     uint8 amp_env_attack(const uint8 msb, const uint8 lsb);

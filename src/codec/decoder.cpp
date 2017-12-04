@@ -43,6 +43,7 @@ value_map decoder::decode(const data_t& payload, int offset)
     values[EParam::FilterOverdrive]            = filter_overdrive              (payload[offset+46], payload[offset+47]);
     values[EParam::FilterSlope]                = filter_slope                  (payload[offset+48]);
     values[EParam::FilterType]                 = filter_type                   (payload[offset+48]);
+    values[EParam::FilterShape]                = filter_shape                  (payload[offset+48]);
 
     values[EParam::VelocityAmpEnv]             = velocity_amp_env              (payload[offset+49], payload[offset+50]);
     values[EParam::AmpEnvAttack]               = amp_env_attack                (payload[offset+50], payload[offset+51]);
@@ -146,6 +147,7 @@ uint8 decoder::filter_resonance(const uint8 msb, const uint8 lsb)       { return
 uint8 decoder::filter_overdrive(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00000001) << 6) + ((lsb & 0b01111110) >> 1); }
 uint8 decoder::filter_slope(const uint8 msb)                            { return  (msb & 0b00001000) >> 3; }
 uint8 decoder::filter_type(const uint8 msb)                             { return  (msb & 0b00000100) >> 2; }
+uint8 decoder::filter_shape(const uint8 msb)                            { return   msb & 0b00000011; }
 
 uint8 decoder::velocity_amp_env(const uint8 msb, const uint8 lsb)       { return ((msb & 0b00111111) << 1) + ((lsb & 0b01000000) >> 6); }
 uint8 decoder::amp_env_attack(const uint8 msb, const uint8 lsb)         { return ((msb & 0b00011111) << 2) + ((lsb & 0b01100000) >> 5); }
