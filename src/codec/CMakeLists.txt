@@ -1,0 +1,17 @@
+set(MODULE_NAME codec)
+
+set(SOURCES src/decoder.cpp)
+set(HEADERS include/codec/decoder.hpp)
+
+add_library(${MODULE_NAME} SHARED ${SOURCES} ${HEADERS})
+add_library(main::${MODULE_NAME} ALIAS ${MODULE_NAME})
+
+target_include_directories(${MODULE_NAME} INTERFACE include PRIVATE include/codec)
+
+set_target_properties(${MODULE_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
+set_target_properties(${MODULE_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
+
+install(TARGETS ${MODULE_NAME}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
