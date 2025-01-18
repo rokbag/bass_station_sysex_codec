@@ -1,1 +1,1 @@
-add_subdirectory(codec)
+add_subdirectory(bs2sysex)

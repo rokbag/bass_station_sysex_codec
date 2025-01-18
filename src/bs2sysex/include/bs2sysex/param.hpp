@@ -1,11 +1,10 @@
 #pragma once
 
-#include <vector>
-#include <map>
+namespace bs2sysex
+{
 
-namespace sysex_decoder {
-
-enum class param {
+enum class param
+{
     PatchNumber,
     PortamentoTime,
     OscPitchBendRange,
@@ -86,10 +85,13 @@ enum class param {
     FxOscFilterMod,
     FxDistortion,
     VCALimiter,
-    PatchName
+    PatchName,
+    Paraphonic,
+    FilterTracking,
+    AmpEnvRetrig,
+    ModEnvRetrig,
+    TuningTable,
+    OscError
 };
-
-std::map<param, std::uint8_t> decode(const std::vector<std::uint8_t> &payload);
-std::map<param, std::uint8_t> decode(const std::vector<std::uint8_t> &payload, int offset);
 
 }
