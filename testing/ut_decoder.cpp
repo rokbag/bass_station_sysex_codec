@@ -301,7 +301,7 @@ TEST_F(ut_decoder, decode_test_max_values)
     EXPECT_EQ(7, result[bs2sysex::param::FilterTracking]);
     EXPECT_EQ(1, result[bs2sysex::param::AmpEnvRetrig]);
     EXPECT_EQ(1, result[bs2sysex::param::ModEnvRetrig]);
-    EXPECT_EQ(71, result[bs2sysex::param::TuningTable]);
+    EXPECT_EQ(15, result[bs2sysex::param::TuningTable]);
     EXPECT_EQ(7, result[bs2sysex::param::OscError]);
 }
 /*

@@ -106,7 +106,7 @@ bs2sysex::value paraphonic(const bit_position lsb)                              
 bs2sysex::value filter_tracking(const bit_position lsb)                                { return  (lsb & 0b00000111); }
 bs2sysex::value amp_env_retrig(const bit_position lsb)                                 { return  (lsb & 0b01000000) >> 6; }
 bs2sysex::value mod_env_retrig(const bit_position lsb)                                 { return  (lsb & 0b00100000) >> 5; }
-bs2sysex::value tuning_table(const bit_position msb, const bit_position lsb)           { return ((msb & 0b00000001) << 6) + ((lsb & 0b01110000) >> 4); }
+bs2sysex::value tuning_table(const bit_position msb, const bit_position lsb)           { return ((msb & 0b00000001) << 3) + ((lsb & 0b01110000) >> 4); }
 bs2sysex::value osc_error(const bit_position lsb)                                      { return  (lsb & 0b00111000) >> 3; }
 
 std::string patch_name(const bs2sysex::sysex_payload& data)
