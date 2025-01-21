@@ -8,4 +8,8 @@ set(CMAKE_CXX_STANDARD 17)
 include(cmake/config.cmake)
 
 add_subdirectory(src)
-add_subdirectory(testing)
+
+option(BUILD_TESTS "Build the tests" OFF)
+if(BUILD_TESTS)
+    add_subdirectory(testing)
+endif()
