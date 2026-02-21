@@ -1,5 +1,6 @@
 #include <decoder.hpp>
 #include <iostream>
+#include <string>
 
 namespace {
 

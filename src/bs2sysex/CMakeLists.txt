@@ -8,6 +8,11 @@ set(HEADERS
 add_library(${MODULE_NAME} SHARED ${SOURCES} ${HEADERS})
 add_library(main::${MODULE_NAME} ALIAS ${MODULE_NAME})
 
+if(BUILD_TESTS)
+    add_library(bs2sysex_static STATIC ${SOURCES} ${HEADERS})
+    target_include_directories(bs2sysex_static INTERFACE include PRIVATE include/bs2sysex)
+endif()
+
 target_include_directories(${MODULE_NAME} INTERFACE include PRIVATE include/bs2sysex)
 
 set_target_properties(${MODULE_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
