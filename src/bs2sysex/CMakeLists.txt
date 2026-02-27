@@ -5,20 +5,21 @@ set(HEADERS
     include/bs2sysex/decoder.hpp
     include/bs2sysex/param.hpp)
 
-add_library(${MODULE_NAME} SHARED ${SOURCES} ${HEADERS})
-add_library(bs2sysex::bs2sysex ALIAS bs2sysex)
-
-if(BUILD_TESTS)
-    add_library(bs2sysex_static STATIC ${SOURCES} ${HEADERS})
-    target_include_directories(bs2sysex_static INTERFACE include PRIVATE include/bs2sysex)
+if(BUILD_SHARED)
+    add_library(${MODULE_NAME} SHARED ${SOURCES} ${HEADERS})
+    set_target_properties(${MODULE_NAME} PROPERTIES
+        VERSION ${PROJECT_VERSION}
+        SOVERSION ${PROJECT_VERSION_MAJOR})
+else()
+    add_library(${MODULE_NAME} STATIC ${SOURCES} ${HEADERS})
 endif()
 
-target_include_directories(${MODULE_NAME} INTERFACE include PRIVATE include/bs2sysex)
+add_library(bs2sysex::bs2sysex ALIAS ${MODULE_NAME})
 
-set_target_properties(${MODULE_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(${MODULE_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
+target_include_directories(${MODULE_NAME}
+    INTERFACE include
+    PRIVATE include/bs2sysex)
 
 install(TARGETS ${MODULE_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

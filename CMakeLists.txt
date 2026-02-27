@@ -10,6 +10,8 @@ include(cmake/config.cmake)
 add_subdirectory(src)
 
 option(BUILD_TESTS "Build the tests" OFF)
+option(BUILD_SHARED "Build shared library" OFF)
+
 if(BUILD_TESTS)
     add_subdirectory(testing)
 endif()
