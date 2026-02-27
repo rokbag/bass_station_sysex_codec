@@ -107,25 +107,13 @@ bs2sysex::value amp_env_retrig(const bit_position lsb)                          
 bs2sysex::value mod_env_retrig(const bit_position lsb)                                 { return  (lsb & 0b00100000) >> 5; }
 bs2sysex::value tuning_table(const bit_position msb, const bit_position lsb)           { return ((msb & 0b00000001) << 3) + ((lsb & 0b01110000) >> 4); }
 bs2sysex::value osc_error(const bit_position lsb)                                      { return  (lsb & 0b00111000) >> 3; }
-
-std::string patch_name(const bs2sysex::sysex_payload& data)
-{
-    std::string str;
-    for (const auto i : data)
-    {
-        bs2sysex::value value = i & 0b01111111;
-        str.append(std::to_string(value));
-    }
-    return str;
-}
-
 }
 
 namespace bs2sysex {
 
 std::string decodePatchName(const sysex_payload& payload)
 {
-    return patch_name(sysex_payload(payload.begin()+137, payload.begin()+152));
+    return std::string{payload.begin()+137, payload.begin()+152};
 }
 
 std::map<param, value> decode(const sysex_payload& payload)
