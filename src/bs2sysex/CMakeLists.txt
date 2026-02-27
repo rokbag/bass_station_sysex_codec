@@ -6,7 +6,7 @@ set(HEADERS
     include/bs2sysex/param.hpp)
 
 add_library(${MODULE_NAME} SHARED ${SOURCES} ${HEADERS})
-add_library(main::${MODULE_NAME} ALIAS ${MODULE_NAME})
+add_library(bs2sysex::bs2sysex ALIAS bs2sysex)
 
 if(BUILD_TESTS)
     add_library(bs2sysex_static STATIC ${SOURCES} ${HEADERS})
