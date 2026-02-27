@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.22)
 set(MODULE_NAME bs2_sysec_codec)
 
 project(${MODULE_NAME} VERSION 1.0.0 DESCRIPTION "Bass Station II SysEx decoding library")
