@@ -1,6 +1,4 @@
 #include <decoder.hpp>
-#include <iostream>
-#include <string>
 
 namespace {
 
@@ -125,6 +123,11 @@ std::string patch_name(const bs2sysex::sysex_payload& data)
 
 namespace bs2sysex {
 
+std::string decodePatchName(const sysex_payload& payload)
+{
+    return patch_name(sysex_payload(payload.begin()+137, payload.begin()+152));
+}
+
 std::map<param, value> decode(const sysex_payload& payload)
 {
     return decode(payload, 0);
@@ -237,8 +240,6 @@ std::map<param, value> decode(const sysex_payload& payload, int offset)
     values[param::ModEnvRetrig]               = mod_env_retrig                (payload[offset+115]);
     values[param::TuningTable]                = tuning_table                  (payload[offset+115], payload[offset+116]);
     values[param::OscError]                   = osc_error                     (payload[offset+117]);
-
-    std::string patchname                     = patch_name                    (sysex_payload(payload.begin()+137, payload.begin()+152));
 
     return values;
 }
