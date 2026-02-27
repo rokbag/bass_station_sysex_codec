@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sctdint>
 #include <vector>
 #include <map>
 #include "param.hpp"
